@@ -20,7 +20,7 @@ const courseRoutes = require('./routes/course');
 const reachRoutes = require('./routes/reach');
 
 // Middleware setup
-app.use(express.json()); // Parse JSON request bodies
+app.use(express.json()); 
 app.use(cookieParser());
 app.use(
     cors({
