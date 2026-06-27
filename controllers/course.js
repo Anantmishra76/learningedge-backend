@@ -195,8 +195,8 @@ exports.createCourse = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while creating new course');
-        console.log(error);
+        console.error('Error while creating new course');
+        console.error(error);
         res.status(500).json({
             success: false,
             error: error.message,
@@ -230,8 +230,8 @@ exports.getAllCourses = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while fetching data of all courses');
-        console.log(error);
+        console.error('Error while fetching data of all courses');
+        console.error(error);
         res.status(500).json({
             success: false,
             error: error.message,
@@ -307,8 +307,8 @@ exports.getCourseDetails = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while fetching course details');
-        console.log(error);
+        console.error('Error while fetching course details');
+        console.error(error);
         return res.status(500).json({
             success: false,
             error: error.message,

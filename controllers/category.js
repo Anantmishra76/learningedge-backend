@@ -31,8 +31,8 @@ exports.createCategory = async (req, res) => {
         });
     }
     catch (error) {
-        console.log('Error while creating category');
-        console.log(error);
+        console.error('Error while creating category');
+        console.error(error);
         res.status(500).json({
             success: false,
             message: 'Error while creating category',
@@ -65,8 +65,8 @@ exports.deleteCategory = async (req, res) => {
         });
     }
     catch (error) {
-        console.log('Error while deleting category');
-        console.log(error);
+        console.error('Error while deleting category');
+        console.error(error);
         res.status(500).json({
             success: false,
             message: 'Error while deleting category',
@@ -89,8 +89,8 @@ exports.showAllCategories = async (req, res) => {
         })
     }
     catch (error) {
-        console.log('Error while fetching all categories');
-        console.log(error);
+        console.error('Error while fetching all categories');
+        console.error(error);
         res.status(500).json({
             success: false,
             message: 'Error while fetching all categories'

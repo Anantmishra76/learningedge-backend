@@ -12,7 +12,6 @@ if (!cached) {
 exports.connectDB = async () => {
     // If already connected, return the cached connection
     if (cached.conn) {
-        // console.log('Using cached database connection');
         return cached.conn;
     }
 
@@ -26,13 +25,10 @@ exports.connectDB = async () => {
         };
 
         cached.promise = mongoose.connect(process.env.DATABASE_URL, opts)
-            .then((mongoose) => {
-                console.log('Database connected successfully');
-                return mongoose;
-            })
+            .then((mongoose) => mongoose)
             .catch((error) => {
-                console.log('Error while connecting server with Database');
-                console.log(error);
+                console.error('Error while connecting server with Database');
+                console.error(error);
                 cached.promise = null;
                 throw error;
             });

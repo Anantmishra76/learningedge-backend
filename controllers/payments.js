@@ -46,7 +46,7 @@ exports.capturePayment = async (req, res) => {
             totalAmount += course.price;
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
             return res.status(500).json({ success: false, message: error.message });
         }
     }
@@ -69,7 +69,7 @@ exports.capturePayment = async (req, res) => {
         })
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
         return res.status(500).json({ success: false, message: "Could not initiate order" });
     }
 }
@@ -187,7 +187,7 @@ const enrollStudents = async (courses, userId, res) => {
             )
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
             return res.status(500).json({ success: false, message: error.message });
         }
     }
@@ -215,7 +215,7 @@ exports.sendPaymentSuccessEmail = async (req, res) => {
         )
     }
     catch (error) {
-        console.log("Error in sending mail", error)
+        console.error("Error in sending mail", error)
         return res.status(500).json({ success: false, message: "Could not send email" })
     }
 }

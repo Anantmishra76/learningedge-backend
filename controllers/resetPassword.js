@@ -43,8 +43,8 @@ exports.resetPasswordToken = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while sending OTP for password reset');
-        console.log(error);
+        console.error('Error while sending OTP for password reset');
+        console.error(error);
         res.status(500).json({
             success: false,
             error: error.message,
@@ -124,8 +124,8 @@ exports.resetPassword = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while resetting password');
-        console.log(error);
+        console.error('Error while resetting password');
+        console.error(error);
         res.status(500).json({
             success: false,
             error: error.message,

@@ -32,19 +32,13 @@ const OTPSchema = new mongoose.Schema({
 // Function to send verification email
 async function sendVerificationEmail(email, otp) {
     const name = email.split('@')[0].split('.').map(part => part.replace(/\d+/g, '')).join(' ');
-    console.log('Attempting to send verification email to:', email);
-    const result = await mailSender(email, 'OTP Verification Email', otpTemplate(otp, name));
-    console.log('Verification email sent successfully to:', email);
-    return result;
+    return mailSender(email, 'OTP Verification Email', otpTemplate(otp, name));
 }
 
 // Function to send password reset email
 async function sendPasswordResetEmail(email, otp) {
     const name = email.split('@')[0].split('.').map(part => part.replace(/\d+/g, '')).join(' ');
-    console.log('Attempting to send password reset email to:', email);
-    const result = await mailSender(email, 'Password Reset OTP', passwordResetOtpTemplate(otp, name));
-    console.log('Password reset email sent successfully to:', email);
-    return result;
+    return mailSender(email, 'Password Reset OTP', passwordResetOtpTemplate(otp, name));
 }
 
 // Pre-save middleware to send email before saving

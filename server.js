@@ -86,9 +86,7 @@ app.get('/', (req, res) => {
 if (process.env.NODE_ENV !== 'production') {
     connectDB()
         .then(() => {
-            app.listen(PORT, () => {
-                console.log(`Server Started on PORT ${PORT}`);
-            });
+            app.listen(PORT, () => {            });
         })
         .catch((error) => {
             console.error('Failed to start server because database connection failed:', error);

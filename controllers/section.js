@@ -71,8 +71,8 @@ exports.createSection = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while creating section');
-        console.log(error);
+        console.error('Error while creating section');
+        console.error(error);
         res.status(500).json({
             success: false,
             error: error.message,
@@ -130,8 +130,8 @@ exports.updateSection = async (req, res) => {
         });
     }
     catch (error) {
-        console.log('Error while updating section');
-        console.log(error);
+        console.error('Error while updating section');
+        console.error(error);
         res.status(500).json({
             success: false,
             error: error.message,
@@ -191,8 +191,8 @@ exports.deleteSection = async (req, res) => {
         })
     }
     catch (error) {
-        console.log('Error while deleting section');
-        console.log(error);
+        console.error('Error while deleting section');
+        console.error(error);
         res.status(500).json({
             success: false,
             error: error.message,

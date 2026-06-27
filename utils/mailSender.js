@@ -34,16 +34,12 @@ const getTransporter = () => {
                 }
             });
         }
-        
-        console.log('Mail transporter created for:', process.env.MAIL_USER);
     }
     return transporter;
 };
 
 const mailSender = async (email, title, body) => {
     try {
-        console.log('Sending email to:', email, 'Subject:', title);
-        
         const transport = getTransporter();
 
         const info = await transport.sendMail({
@@ -53,7 +49,6 @@ const mailSender = async (email, title, body) => {
             html: body
         });
 
-        console.log('Email sent successfully. Message ID:', info.messageId);
         return info;
     } catch (error) {
         console.error('Error while sending mail:', error);

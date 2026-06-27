@@ -49,7 +49,7 @@ exports.sendOTP = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while generating OTP - ', error);
+        console.error('Error while generating OTP - ', error);
         res.status(500).json({
             success: false,
             message: 'Error while generating OTP',
@@ -139,8 +139,8 @@ exports.signup = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while registering user (signup)');
-        console.log(error)
+        console.error('Error while registering user (signup)');
+        console.error(error)
         res.status(401).json({
             success: false,
             error: error.message,
@@ -217,8 +217,8 @@ exports.login = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while logging in user');
-        console.log(error);
+        console.error('Error while logging in user');
+        console.error(error);
         res.status(500).json({
             success: false,
             error: error.message,
@@ -302,8 +302,8 @@ exports.changePassword = async (req, res) => {
     }
 
     catch (error) {
-        console.log('Error while changing password');
-        console.log(error)
+        console.error('Error while changing password');
+        console.error(error)
         res.status(500).json({
             success: false,
             error: error.message,

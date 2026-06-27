@@ -59,7 +59,7 @@ exports.contactUs = async (req, res) => {
         });
 
     } catch (error) {
-        console.log('Error while processing contact form submission:', error);
+        console.error('Error while processing contact form submission:', error);
         return res.status(500).json({
             success: false,
             message: 'Failed to process your request. Please try again later.',
