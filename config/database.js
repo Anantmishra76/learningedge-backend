@@ -36,6 +36,7 @@ exports.connectDB = async () => {
 
     try {
         cached.conn = await cached.promise;
+        console.log('Database connected successfully');
     } catch (error) {
         cached.promise = null;
         throw error;
