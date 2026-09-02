@@ -1,34 +1,29 @@
-// Main server file for LearningEdge backend application
 const express = require("express");
 const app = express();
-
-// Third-party packages
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
-
-// Database and cloudinary connections
 const { connectDB } = require("./config/database");
 const { cloudinaryConnect } = require("./config/cloudinary");
 
-// Route imports
+// Routes
 const userRoutes = require("./routes/user");
 const profileRoutes = require("./routes/profile");
 const paymentRoutes = require("./routes/payments");
 const courseRoutes = require("./routes/course");
 const reachRoutes = require("./routes/reach");
 
-// Middleware setup
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
     origin: (origin, callback) => {
       const allowedOrigins = [
-        "https://learningedge.vercel.app",
+        process.env.FRONTEND_URL,
         "http://localhost:3000",
-      ];
+      ].filter(Boolean);
       const isLocalViteOrigin = /^http:\/\/localhost:517\d$/.test(origin || "");
 
       if (!origin || allowedOrigins.includes(origin) || isLocalViteOrigin) {
@@ -49,10 +44,8 @@ app.use(
   }),
 );
 
-// Server configuration
 const PORT = process.env.PORT || 5000;
 
-// Initialize cloudinary
 cloudinaryConnect();
 
 // Middleware to ensure database connection for each request (serverless)
@@ -77,6 +70,15 @@ app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/course", courseRoutes);
 app.use("/api/v1/reach", reachRoutes);
 
+// Health check endpoint for hosting providers and uptime monitoring
+app.get("/api/v1/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Default route
 app.get("/", (req, res) => {
   res.send(`<div>
@@ -85,20 +87,14 @@ app.get("/", (req, res) => {
     </div>`);
 });
 
-// For local development
-if (process.env.NODE_ENV !== "production") {
-  connectDB()
-    .then(() => {
-      app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-    })
-    .catch((error) => {
-      console.error(
-        "Failed to start server because database connection failed:",
-        error,
-      );
-      process.exit(1);
+// Start the HTTP server for local development and Koyeb deployment.
+connectDB()
+  .then(() => {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on port ${PORT}`);
     });
-}
-
-// Export for Vercel
-module.exports = app;
+  })
+  .catch((error) => {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  });
