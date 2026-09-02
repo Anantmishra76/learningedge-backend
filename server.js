@@ -87,7 +87,7 @@ app.get("/", (req, res) => {
     </div>`);
 });
 
-// Start the HTTP server for local development and Koyeb deployment.
+// Start the HTTP server for local development and Render deployment.
 connectDB()
   .then(() => {
     app.listen(PORT, "0.0.0.0", () => {

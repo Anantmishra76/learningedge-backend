@@ -1,59 +1,39 @@
-// Utility function for sending emails using Nodemailer
-const nodemailer = require('nodemailer');
-
-// Create reusable transporter object (connection pool)
-let transporter = null;
-
-const getTransporter = () => {
-    if (!transporter) {
-        // Check if using Gmail
-        const isGmail = process.env.MAIL_HOST?.includes('gmail') || 
-                        process.env.MAIL_USER?.includes('gmail');
-        
-        if (isGmail) {
-            // Gmail specific configuration
-            transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: process.env.MAIL_USER,
-                    pass: process.env.MAIL_PASS
-                }
-            });
-        } else {
-            // Generic SMTP configuration
-            transporter = nodemailer.createTransport({
-                host: process.env.MAIL_HOST,
-                port: parseInt(process.env.MAIL_PORT) || 587,
-                secure: process.env.MAIL_PORT === '465',
-                auth: {
-                    user: process.env.MAIL_USER,
-                    pass: process.env.MAIL_PASS
-                },
-                tls: {
-                    rejectUnauthorized: false
-                }
-            });
-        }
-    }
-    return transporter;
-};
-
+// Send transactional email through Resend's HTTPS API.
+// Render Free blocks outbound SMTP, while HTTPS requests are supported.
 const mailSender = async (email, title, body) => {
-    try {
-        const transport = getTransporter();
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.MAIL_FROM;
 
-        const info = await transport.sendMail({
-            from: `"LearningEdge" <${process.env.MAIL_USER}>`,
-            to: email,
-            subject: title,
-            html: body
-        });
+  if (!apiKey || !from) {
+    throw new Error("RESEND_API_KEY and MAIL_FROM must be configured");
+  }
 
-        return info;
-    } catch (error) {
-        console.error('Error while sending mail:', error);
-        throw error;
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: [email],
+        subject: title,
+        html: body,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result?.message || "Resend rejected the email request");
     }
-}
+
+    return result;
+  } catch (error) {
+    console.error("Error while sending mail:", error.message);
+    throw error;
+  }
+};
 
 module.exports = mailSender;
